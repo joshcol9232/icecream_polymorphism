@@ -10,31 +10,31 @@
  * == Task description ==
  *
  *  A contractor was hired to implement an ice cream dispenser reciept maker.
- *  They left after a disagreement with the managers - you are left to pick up the work.
+ *  They left after a disagreement with the managers - you are told to pick up the work.
  *  They managed to implement the user input, but it is lacking the infrastructure to build the ice cream!
- *  See // TODO: Implement. (and YOUR CODE HERE).
+ *  See TODO markers throughout the code.
  *
  *  Create a program for an ice cream dispenser. The ice cream dispenser can
  *  make ice creams with:
- *  - A cone.              £0.30
- *  - A number of scoops of ice cream of flavours:
- *    = Vanilla            £0.50
- *    = Chocolate          £0.60
- *    = Strawberry         £0.60
- *    = Pistachio          £0.70
- *  - A chocolate flake.   £1.00
- *  - Sprinkles: {Chocolate, multicolour} £0.30
+ *  - A cone.                                         £0.30
+ *  - Multiple scoops:
+ *    = Vanilla                                       £0.50 per scoop
+ *    = Chocolate                                     £0.60 per scoop
+ *    = Strawberry                                    £0.60 per scoop
+ *    = Pistachio                                     £0.70 per scoop
+ *  - A chocolate flake.                              £1.00
+ *  - Sprinkles: {Chocolate, Hundreds-and-thousands}  £0.30
  *
  *  All of these are optional additions apart from the cone, which is implicitly added to the order.
  *
  *  The program accepts user text input, to build an ice cream.
  *
  *  Finally, when the user inputs "done", output a reciept for the ice cream based on the user's choice.
- *  This can be in whatever format you would like.
+ *  This can be in whatever format you would like, but some base code is provided by the previous contractor.
  *
  *  TIPS:
- *  - I recommend using a builder approach, with object oriented principles.
- *    Remember, std::unique_ptr<const T> can be used to hold polymorphic types.
+ *  - I recommend using object oriented principles wherever possible.
+ *    Remember, std::unique_ptr<const BaseClass> can be used to hold polymorphic types.
  *  - There are many ways to do this; there is no correct way. Have fun!
 */ 
 
@@ -54,8 +54,8 @@ class IceCreamDispenser {
     os << "=== Ice cream summary :) ===" << std::endl
        << "==  Cone : £" << basePrice_ << std::endl;
 
-    /// === YOUR CODE HERE ===
-    /// ======================
+    /// === TODO: Build a reciept ===
+    /// =============================
 
     os << "=== Total price: £" << totalPrice << std::endl;
     os << "============================" << std::endl;
@@ -78,6 +78,7 @@ class IceCreamDispenser {
  private:
   // === USER INPUT ===
   /// Asks the user how many scoops to add once a flavour is chosen.
+  // TODO: Not used yet?
   size_t askNumScoops() {
     std::cout << "How many scoops? : " << std::endl;
     std::string input;
@@ -91,24 +92,24 @@ class IceCreamDispenser {
   // TODO: Incomplete.
   void processLine(const std::string& input) {
     if (input == "vanilla") {
-      /// YOUR CODE HERE
+      // TODO
     } else if (input == "chocolate") {
-      /// YOUR CODE HERE
+      // TODO
     } else if (input == "strawberry") {
-      /// YOUR CODE HERE
+      // TODO
     } else if (input == "pistachio") {
-      /// YOUR CODE HERE
+      // TODO
     } else if (input == "flake") {
-      /// YOUR CODE HERE
+      // TODO
     } else if (input == "sprinkles") {
       std::cout << "What type of sprinkles? (multicolour, chocolate) : " << std::endl;
       std::string input;
       std::cin >> input;
 
       if (input == "multicolour") {
-        /// YOUR CODE HERE
+        // TODO
       } else if (input == "chocolate") {
-        /// YOUR CODE HERE
+        // TODO
       } else {
         std::cout << "Unrecognised sprinkle type: " << input << ", moving on..." << std::endl;
       }
@@ -126,7 +127,11 @@ class IceCreamDispenser {
 
 int main(int argc, char * argv[]) {
   IceCreamDispenser dispenser;
+
+  // First, build the ice cream from user input.
   dispenser.userInput();
+
+  // Finally, produce a reciept for the built ice cream.
   dispenser.printReciept(std::cout);
 
   return 0;
