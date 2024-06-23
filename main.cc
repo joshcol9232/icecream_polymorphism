@@ -139,15 +139,6 @@ class IceCreamBuilder {
 };
 
 int main(int argc, char * argv[]) {
-  /*
-  IceCreamBuilder factory;
-  factory.withScoop<Vanilla>();
-  factory.withScoop<Chocolate>();
-  factory.withSprinkles(SprinkleType::Chocolate);
-  factory.withFlake();
-  factory.reciept(std::cout) << std::endl;
-  */
-
   IceCreamBuilder inputFactory;
   inputFactory.userInput();
   inputFactory.reciept(std::cout) << std::endl;
