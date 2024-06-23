@@ -1,3 +1,4 @@
+#include <iomanip>
 #include <iostream>
 #include <memory>
 #include <vector>
@@ -8,7 +9,7 @@
  *
  *  Create a program for an ice cream dispenser. The ice cream dispenser can
  *  make ice creams with:
- *  - A cone.   £0.50
+ *  - A cone.              £0.30
  *  - A number of scoops of ice cream of flavours:
  *    = Vanilla            £0.50
  *    = Chocolate          £0.60
@@ -17,38 +18,47 @@
  *  - A chocolate flake.   £1.00
  *  - Sprinkles: {Chocolate, multicolour} £0.30
  *
- *  All of these are optional additions apart from the cone.
- *  Additionally, there are a few set options from the buttons on the machine.
- *  - Base vanilla. (1 cone, 1 scoop vanilla)
- *  - Vanilla with flake. (1 cone, 1 scoop vanilla, chocolate flake)
+ *  All of these are optional additions apart from the cone, which is implicitly added to the order.
  *
- *  Finally, output a reciept for the ice cream based on the user's choice.
+ *  The program should accept user text input, to build an ice cream.
+ *
+ *  Finally, when the user inputs "done", output a reciept for the ice cream based on the user's choice.
+ *  This can be in whatever format you would like.
+ *
+ *  TIPS:
+ *  - Start off without any user input, just building an ice cream in the program.
+ *  - I recommend using a builder approach, with object oriented principles.
+ *    Remember, std::unique_ptr<const T> can be used to hold polymorphic types.
+ *  - There are many ways to do this; there is no correct way. Have fun!
 */ 
 
 #include "Component.h"
 #include "Scoop.h"
 
-class IceCreamFactory {
+class IceCreamBuilder {
  public:
-  IceCreamFactory() {}
+  IceCreamBuilder() {}
 
   template<typename ScoopType>
-  IceCreamFactory& withScoop(const size_t num = 1) {
+  IceCreamBuilder& withScoop(const size_t num = 1) {
     order_.push_back(std::make_unique<ScoopType>(num));
     return *this;
   }
 
-  IceCreamFactory& withSprinkles(const SprinkleType type) {
+  IceCreamBuilder& withSprinkles(const SprinkleType type) {
     order_.push_back(std::make_unique<Sprinkles>(type));
     return *this;
   }
 
-  IceCreamFactory& withFlake() {
+  IceCreamBuilder& withFlake() {
     order_.push_back(std::make_unique<Flake>());
     return *this;
   }
 
   std::ostream& reciept(std::ostream& os) const {
+    // Set number of s.f
+    os << std::fixed << std::setprecision(2);
+
     os << "=== Ice cream summary :) ===" << std::endl
        << "==  Cone : £" << basePrice_ << std::endl;
 
@@ -117,6 +127,9 @@ class IceCreamFactory {
       } else {
         std::cout << "Unrecognised sprinkle type: " << input << ", moving on..." << std::endl;
       }
+    } else if (input == "done" || input == "Done") {
+    } else {
+      std::cout << "Unrecognised input... Moving on." << std::endl;
     }
     std::cout << "------------" << std::endl;
   }
@@ -126,15 +139,16 @@ class IceCreamFactory {
 };
 
 int main(int argc, char * argv[]) {
-  IceCreamFactory factory;
+  /*
+  IceCreamBuilder factory;
   factory.withScoop<Vanilla>();
   factory.withScoop<Chocolate>();
   factory.withSprinkles(SprinkleType::Chocolate);
   factory.withFlake();
-
   factory.reciept(std::cout) << std::endl;
+  */
 
-  IceCreamFactory inputFactory;
+  IceCreamBuilder inputFactory;
   inputFactory.userInput();
   inputFactory.reciept(std::cout) << std::endl;
 
