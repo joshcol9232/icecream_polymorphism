@@ -1,3 +1,0 @@
-/home/josh/programming/cpp/icecream/build/CMakeFiles/icecream.dir
-/home/josh/programming/cpp/icecream/build/CMakeFiles/edit_cache.dir
-/home/josh/programming/cpp/icecream/build/CMakeFiles/rebuild_cache.dir
