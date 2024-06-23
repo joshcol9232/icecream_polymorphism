@@ -1,11 +1,18 @@
+// Things you may or may not need
 #include <iomanip>
 #include <iostream>
 #include <memory>
 #include <vector>
 #include <ostream>
+#include <string>
 
 /*
  * == Task description ==
+ *
+ *  A contractor was hired to implement an ice cream dispenser reciept maker.
+ *  They left after a disagreement with the managers - you are left to pick up the work.
+ *  They managed to implement the user input, but it is lacking the infrastructure to build the ice cream!
+ *  See // TODO: Implement. (and YOUR CODE HERE).
  *
  *  Create a program for an ice cream dispenser. The ice cream dispenser can
  *  make ice creams with:
@@ -20,54 +27,35 @@
  *
  *  All of these are optional additions apart from the cone, which is implicitly added to the order.
  *
- *  The program should accept user text input, to build an ice cream.
+ *  The program accepts user text input, to build an ice cream.
  *
  *  Finally, when the user inputs "done", output a reciept for the ice cream based on the user's choice.
  *  This can be in whatever format you would like.
  *
  *  TIPS:
- *  - Start off without any user input, just building an ice cream in the program.
  *  - I recommend using a builder approach, with object oriented principles.
  *    Remember, std::unique_ptr<const T> can be used to hold polymorphic types.
  *  - There are many ways to do this; there is no correct way. Have fun!
 */ 
 
-#include "Component.h"
-#include "Scoop.h"
 
-class IceCreamBuilder {
+class IceCreamDispenser {
  public:
-  IceCreamBuilder() {}
+  IceCreamDispenser() {}
 
-  template<typename ScoopType>
-  IceCreamBuilder& withScoop(const size_t num = 1) {
-    order_.push_back(std::make_unique<ScoopType>(num));
-    return *this;
-  }
+  /// Print the final reciept. Accepts an output stream to print to.
+  // TODO: Incomplete.
+  std::ostream& printReciept(std::ostream& os) const {
+    float totalPrice = basePrice_;
 
-  IceCreamBuilder& withSprinkles(const SprinkleType type) {
-    order_.push_back(std::make_unique<Sprinkles>(type));
-    return *this;
-  }
-
-  IceCreamBuilder& withFlake() {
-    order_.push_back(std::make_unique<Flake>());
-    return *this;
-  }
-
-  std::ostream& reciept(std::ostream& os) const {
-    // Set number of s.f
+    // Set number of significant figures.
     os << std::fixed << std::setprecision(2);
 
     os << "=== Ice cream summary :) ===" << std::endl
        << "==  Cone : £" << basePrice_ << std::endl;
 
-    float totalPrice = basePrice_;
-
-    for (const auto& comp : order_) {
-      os << "==  " << comp->name() << " : £" << comp->price() << std::endl;
-      totalPrice += comp->price();
-    }
+    /// === YOUR CODE HERE ===
+    /// ======================
 
     os << "=== Total price: £" << totalPrice << std::endl;
     os << "============================" << std::endl;
@@ -80,6 +68,7 @@ class IceCreamBuilder {
     std::cout << "Build your ice cream (finish with 'done'): " << std::endl;
     std::string input;
 
+    // Get input whilst the user doesn't put "done".
     do {
       std::cin >> input;
       processLine(input);
@@ -87,8 +76,8 @@ class IceCreamBuilder {
   }
 
  private:
-  std::vector<std::unique_ptr<const Component>> order_;
-
+  // === USER INPUT ===
+  /// Asks the user how many scoops to add once a flavour is chosen.
   size_t askNumScoops() {
     std::cout << "How many scoops? : " << std::endl;
     std::string input;
@@ -98,32 +87,28 @@ class IceCreamBuilder {
     return std::stoi(input);
   }
 
-  template<typename ScoopType>
-  void processScoop() {
-    size_t numScoops = askNumScoops();
-    withScoop<ScoopType>(numScoops);
-  }
-
-  void processLine(const std::string_view input) {
+  /// Process a line of user input.
+  // TODO: Incomplete.
+  void processLine(const std::string& input) {
     if (input == "vanilla") {
-      processScoop<Vanilla>();
+      /// YOUR CODE HERE
     } else if (input == "chocolate") {
-      processScoop<Chocolate>();
+      /// YOUR CODE HERE
     } else if (input == "strawberry") {
-      processScoop<Strawberry>();
+      /// YOUR CODE HERE
     } else if (input == "pistachio") {
-      processScoop<Pistachio>();
+      /// YOUR CODE HERE
     } else if (input == "flake") {
-      withFlake();
+      /// YOUR CODE HERE
     } else if (input == "sprinkles") {
       std::cout << "What type of sprinkles? (multicolour, chocolate) : " << std::endl;
       std::string input;
       std::cin >> input;
 
       if (input == "multicolour") {
-        withSprinkles(SprinkleType::Multicolour);
+        /// YOUR CODE HERE
       } else if (input == "chocolate") {
-        withSprinkles(SprinkleType::Chocolate);
+        /// YOUR CODE HERE
       } else {
         std::cout << "Unrecognised sprinkle type: " << input << ", moving on..." << std::endl;
       }
@@ -134,14 +119,15 @@ class IceCreamBuilder {
     std::cout << "------------" << std::endl;
   }
 
-  // Base price - cost of cone.
-  static constexpr float basePrice_ = 0.30;
+  // Base price - cost of the cone.
+  static constexpr float basePrice_ = 0.30f;
 };
 
+
 int main(int argc, char * argv[]) {
-  IceCreamBuilder inputFactory;
-  inputFactory.userInput();
-  inputFactory.reciept(std::cout) << std::endl;
+  IceCreamDispenser dispenser;
+  dispenser.userInput();
+  dispenser.printReciept(std::cout);
 
   return 0;
 }
