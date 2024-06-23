@@ -3,13 +3,12 @@
 #include <iostream>
 #include <memory>
 #include <vector>
-#include <ostream>
 #include <string>
 
 /*
  * == Task description ==
  *
- *  A contractor was hired to implement an ice cream dispenser reciept maker.
+ *  A contractor was hired to implement an ice cream dispenser receipt maker.
  *  They left after a disagreement with the managers - you are told to pick up the work.
  *  They managed to implement the user input, but it is lacking the infrastructure to build the ice cream!
  *  See TODO markers throughout the code.
@@ -29,7 +28,7 @@
  *
  *  The program accepts user text input, to build an ice cream.
  *
- *  Finally, when the user inputs "done", output a reciept for the ice cream based on the user's choice.
+ *  Finally, when the user inputs "done", output a receipt for the ice cream based on the user's choice.
  *  This can be in whatever format you would like, but some base code is provided by the previous contractor.
  *
  *  TIPS:
@@ -43,24 +42,19 @@ class IceCreamDispenser {
  public:
   IceCreamDispenser() {}
 
-  /// Print the final reciept. Accepts an output stream to print to.
+  /// Print the final receipt. Accepts an output stream to print to.
   // TODO: Incomplete.
-  std::ostream& printReciept(std::ostream& os) const {
-    float totalPrice = basePrice_;
-
+  void printReceipt() const {
     // Set number of significant figures.
-    os << std::fixed << std::setprecision(2);
+    std::cout << std::fixed << std::setprecision(2);
+    std::cout << "=== Ice cream receipt ===" << std::endl
+              << "==  Cone : £" << basePrice_ << std::endl;
 
-    os << "=== Ice cream summary :) ===" << std::endl
-       << "==  Cone : £" << basePrice_ << std::endl;
-
-    /// === TODO: Build a reciept ===
+    /// === TODO: Build a receipt ===
     /// =============================
 
-    os << "=== Total price: £" << totalPrice << std::endl;
-    os << "============================" << std::endl;
-
-    return os;
+    std::cout << "=== Total price: £" << basePrice_ << std::endl
+              << "=========================" << std::endl;
   }
 
   // === USER INPUT ===
@@ -131,8 +125,8 @@ int main(int argc, char * argv[]) {
   // First, build the ice cream from user input.
   dispenser.userInput();
 
-  // Finally, produce a reciept for the built ice cream.
-  dispenser.printReciept(std::cout);
+  // Finally, produce a receipt for the built ice cream.
+  dispenser.printReceipt();
 
   return 0;
 }
