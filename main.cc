@@ -26,6 +26,7 @@
 */ 
 
 #include "Component.h"
+#include "Scoop.h"
 
 class IceCreamFactory {
  public:
@@ -65,12 +66,60 @@ class IceCreamFactory {
   }
 
   // === USER INPUT ===
-  void processLine() {
+  void userInput() {
+    std::cout << "Build your ice cream (finish with 'done'): " << std::endl;
+    std::string input;
 
+    do {
+      std::cin >> input;
+      processLine(input);
+    } while (input != "Done" && input != "done");
   }
 
  private:
   std::vector<std::unique_ptr<const Component>> order_;
+
+  size_t askNumScoops() {
+    std::cout << "How many scoops? : " << std::endl;
+    std::string input;
+    std::cin >> input;
+
+    if (input == "") { return 1; }
+    return std::stoi(input);
+  }
+
+  template<typename ScoopType>
+  void processScoop() {
+    size_t numScoops = askNumScoops();
+    withScoop<ScoopType>(numScoops);
+  }
+
+  void processLine(const std::string_view input) {
+    if (input == "vanilla") {
+      processScoop<Vanilla>();
+    } else if (input == "chocolate") {
+      processScoop<Chocolate>();
+    } else if (input == "strawberry") {
+      processScoop<Strawberry>();
+    } else if (input == "pistachio") {
+      processScoop<Pistachio>();
+    } else if (input == "flake") {
+      withFlake();
+    } else if (input == "sprinkles") {
+      std::cout << "What type of sprinkles? (multicolour, chocolate) : " << std::endl;
+      std::string input;
+      std::cin >> input;
+
+      if (input == "multicolour") {
+        withSprinkles(SprinkleType::Multicolour);
+      } else if (input == "chocolate") {
+        withSprinkles(SprinkleType::Chocolate);
+      } else {
+        std::cout << "Unrecognised sprinkle type: " << input << ", moving on..." << std::endl;
+      }
+    }
+    std::cout << "------------" << std::endl;
+  }
 
   // Base price - cost of cone.
   static constexpr float basePrice_ = 0.30;
@@ -84,6 +133,10 @@ int main(int argc, char * argv[]) {
   factory.withFlake();
 
   factory.reciept(std::cout) << std::endl;
+
+  IceCreamFactory inputFactory;
+  inputFactory.userInput();
+  inputFactory.reciept(std::cout) << std::endl;
 
   return 0;
 }
