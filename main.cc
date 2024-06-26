@@ -97,12 +97,12 @@ class IceCreamDispenser {
       // TODO
     } else if (input == "sprinkles") {
       std::cout << "What type of sprinkles? (multicolour, chocolate) : " << std::endl;
-      std::string input;
-      std::cin >> input;
+      std::string sprinklesInput;
+      std::cin >> sprinklesInput;
 
-      if (input == "multicolour") {
+      if (sprinklesInput == "multicolour") {
         // TODO
-      } else if (input == "chocolate") {
+      } else if (sprinklesInput == "chocolate") {
         // TODO
       } else {
         std::cout << "Unrecognised sprinkle type: " << input << ", moving on..." << std::endl;
